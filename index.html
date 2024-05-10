@@ -1,69 +1,170 @@
 <html>
     <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <script src="plotly.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
     </head>
     <body>
-    <div class="navbar"><span>Real-Time Chart with Plotly.js</span></div>
+    <div id="navbar" class="navbar"><span> FWDIS Dashboard </span></div>
+
     <div class="wrapper">
-        <span id="span" class="positioned"> Left Foot </span>
+        <!--<div class="charts-container3d">-->
+            <div id="chart2d1"> Left Foot in 2D </div>
+            <!--<div id="chart2d2"> Right Foot in 2D </div>-->
+        </div>
+
+
+        <script>
+            var data = [
+            {
+                z: [[1, 20, 30], [20, 1, 60], [30, 60, 1]],
+                type: 'heatmap'
+            }
+            ];
+
+
+            Plotly.newPlot('chart2d1', data);
+            var data1 = [
+            {
+                z: [[1, 20, 30], [20, 1, 60], [30, 60, 1]],
+                type: 'heatmap'
+            }
+            ];
+
+
+            Plotly.newPlot('chart2d2', data1);
+        </script>
+    </div>
+
+    <div class="wrapper">
+        <div class="charts-container3d">
+            <div id="chart3d1"></div>
+            <div id="chart3d2"></div>
+        </div>
+
+        <script>
+            const CSV1 = "https://raw.githubusercontent.com/chris3edwards3/exampledata/master/plotlyJS/3d.csv";
+            const CSV2 = "https://raw.githubusercontent.com/chris3edwards3/exampledata/master/plotlyJS/3d.csv";
+            Plotly.d3.csv(CSV1, function(err, rows){
+                function unpack(rows, key) {
+                    return rows.map(function(row) { return row[key]; });
+                }
+
+                let z_data=[];
+
+                let i = 0;
+                while (i < 21) {
+                    z_data.push(unpack(rows, i));
+                    i += 1;
+                }
+
+                let data = [{
+                    z: z_data,
+                    type: 'surface',
+                    // colorscale: "YIGnBu" //https://plot.ly/javascript/colorscales/
+                }];
+
+                let layout = {
+                    title: "Left Foot in 3D",
+                    autosize: false,
+                    height: 600,
+                    width: 700,
+                    margin: {
+                        l: 65,
+                        r: 50,
+                        b: 65,
+                        t: 30,
+                    }
+                };
+
+                Plotly.newPlot('chart3d1', data, layout);
+            });
+            Plotly.d3.csv(CSV2, function(err, rows){
+                function unpack(rows, key) {
+                    return rows.map(function(row) { return row[key]; });
+                }
+
+                let z_data=[];
+
+                let i = 0;
+                while (i < 21) {
+                    z_data.push(unpack(rows, i));
+                    i += 1;
+                }
+
+                let data = [{
+                    z: z_data,
+                    type: 'surface',
+                    colorscale: "YIGnBu" //https://plot.ly/javascript/colorscales/
+                }];
+
+                let layout = {
+                    title: "Right Foot in 3D",
+                    autosize: false,
+                    height: 600,
+                    width: 700,
+                    margin: {
+                        l: 65,
+                        r: 50,
+                        b: 65,
+                        t: 30,
+                    }
+                };
+
+                Plotly.newPlot('chart3d2', data, layout);
+            });
+        </script>
+
+    </div>
+    
+    <div class="wrapper">
+        <span id="span" class="positioned"> Left Foot + Right Foot (Total Weight) </span>
         <div id="chart"></div>
         <script>
             function getData() {
                 return Math.random();
-            }  
+            } 
 
-            Plotly.newPlot('chart',[{
-                y:[getData()],
-                type:'line'
-            }]);
-            
+            var num = getData();
+            var num1 = 1-num;
+    
+            // Initialize data for both lines
+            var data = [{
+                y: [num],
+                type: 'line',
+                name: 'Left' // Optional name for the first line
+            }, {
+                y: [num1],
+                type: 'line',
+                name: 'Right' // Optional name for the second line
+            }];
+    
+            Plotly.newPlot('chart', data);
+    
             var cnt = 0;
-
-            setInterval(function(){
-
-                Plotly.extendTraces('chart',{ y:[[getData()]]}, [0]);
+    
+            setInterval(function() {
+                // Generate random data for both lines
+                var num = getData();
+                var num1 = 1-num;
+                var newData = [
+                    [num],
+                    [num1]
+                ];
+    
+                // Extend both lines
+                Plotly.extendTraces('chart', { y: newData }, [0, 1]);
                 cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart',{
+    
+                if (cnt > 500) {
+                    Plotly.relayout('chart', {
                         xaxis: {
-                            range: [cnt-500,cnt]
+                            range: [cnt - 500, cnt]
                         }
                     });
                 }
-            },100);
+            }, 100);
         </script>
-    </div>
-    <div class="wrapper1">
-        <span id="span1" class="positioned"> Right Foot </span>
-        <div id="chart1"></div>
-        <script>
-            function getData1() {
-                return Math.random();
-            }  
-
-            Plotly.newPlot('chart1',[{
-                y:[getData1()],
-                type:'line'
-            }]);
-            
-            var cnt1 = 0;
-
-            setInterval(function(){
-
-                Plotly.extendTraces('chart1',{ y:[[getData1()]]}, [0]);
-                cnt1++;
-                if(cnt1 > 500) {
-                    Plotly.relayout('chart1',{
-                        xaxis: {
-                            range: [cnt1-500,cnt1]
-                        }
-                    });
-                }
-            },100);
-        </script>
-        
     </div>
     </body>
 </html>
