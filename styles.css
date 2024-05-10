@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table {
+    width: 100%;
+}
+
+#left {
+    position: absolute;
+    left: 0.5%;
+    width: 73.5%;
+    height: 80%;
+    overflow-y: auto;
+}
+  
+#right {
+    position: absolute;
+    right: 0.5%;
+    width: 23.5%;
+    height: 80%;
+    overflow-y: auto;
+}
+
+#alwaysThere {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 3px solid green;
+}
+
+.box {
+    position: relative;
+    display: inline-block;
+    width: 90%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 14px;
+    margin: 3px;
+    padding: 3px;
+}
