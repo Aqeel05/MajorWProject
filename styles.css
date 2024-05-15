@@ -34,19 +34,6 @@ body {
     align-items: center;
 }
 
-#chart2d1 {
-    width: 25%;
-    height: 500px;
-    float: left;
-
-}
-#chart2d2 {
-    width: 50%;
-    height: 500px;
-    float: right;
-
-}
-
 .charts-container3d {
     display: flex;
     justify-content: center;
